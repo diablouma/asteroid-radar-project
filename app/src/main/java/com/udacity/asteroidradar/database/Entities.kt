@@ -19,13 +19,15 @@ data class NearEarthObject constructor(
     val asOfDate: LocalDate
 )
 
-fun NearEarthObject.asDomainModel(): DomainNearEarthObject {
-    return DomainNearEarthObject(
-        this.asOfDate,
-        this.absoluteMagnitude,
-        this.estimatedDiameterMax,
-        this.isPotentiallyHazardousAsteroid,
-        this.relativeVelocityInKmPerSecond,
-        this.missDistance
-    )
+fun List<NearEarthObject>.asDomainModel(): List<DomainNearEarthObject> {
+    return map {
+        DomainNearEarthObject(
+            it.asOfDate,
+            it.absoluteMagnitude,
+            it.estimatedDiameterMax,
+            it.isPotentiallyHazardousAsteroid,
+            it.relativeVelocityInKmPerSecond,
+            it.missDistance
+        )
+    }
 }
