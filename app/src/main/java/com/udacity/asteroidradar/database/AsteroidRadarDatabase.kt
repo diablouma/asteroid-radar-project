@@ -2,11 +2,9 @@ package com.udacity.asteroidradar.database
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.room.Database
-import androidx.room.Query
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 
+@Dao
 interface NearEarthObjectDao {
     @Query("select * from nearEarthObject")
     fun getNearEarthObjects(): LiveData<List<NearEarthObject>>
