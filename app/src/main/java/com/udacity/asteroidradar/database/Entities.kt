@@ -8,7 +8,7 @@ import java.time.LocalDate
 import com.udacity.asteroidradar.domain.NearEarthObject as DomainNearEarthObject
 
 @Entity
-data class NearEarthObject constructor (
+data class NearEarthObject constructor(
     @PrimaryKey
     val id: String,
     val absoluteMagnitude: Double,
@@ -18,3 +18,14 @@ data class NearEarthObject constructor (
     val missDistance: String,
     val asOfDate: LocalDate
 )
+
+fun NearEarthObject.asDomainModel(): DomainNearEarthObject {
+    return DomainNearEarthObject(
+        this.asOfDate,
+        this.absoluteMagnitude,
+        this.estimatedDiameterMax,
+        this.isPotentiallyHazardousAsteroid,
+        this.relativeVelocityInKmPerSecond,
+        this.missDistance
+    )
+}
