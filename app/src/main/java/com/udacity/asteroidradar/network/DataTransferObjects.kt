@@ -6,6 +6,7 @@ import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.domain.NearEarthObject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import com.udacity.asteroidradar.database.NearEarthObject as DatabaseNearEarthObject
 
 @JsonClass(generateAdapter = true)
 data class NetworkNearEarthObjectsContainer(
@@ -52,3 +53,44 @@ data class NetworkRelatedVelocity(
 data class NetworkMissDistance(
     val astronomical: String
 )
+
+fun NetworkNearEarthObjectsContainer.asDomainModel(): List<NearEarthObject> {
+    val result = ArrayList<NearEarthObject>()
+    this.networkNearEarthObjectsContainer.map {
+        it.value.forEach { networkNearEarthObject ->
+            result.add(
+                NearEarthObject(
+                    LocalDate.parse(
+                        it.key,
+                        DateTimeFormatter.ofPattern(Constants.API_QUERY_DATE_FORMAT)
+                    ),
+                    networkNearEarthObject.absoluteMagnitude,
+                    networkNearEarthObject.estimatedDiameter.kilometers.estimatedDiameterMax,
+                    networkNearEarthObject.isPotentiallyHazardousAsteroid,
+                    networkNearEarthObject.closeApproachData[0].relativeVelocity.kilometersPerSecond,
+                    networkNearEarthObject.closeApproachData[0].missDistance.astronomical
+                )
+            )
+        }
+    }
+    return result
+}
+
+fun NetworkNearEarthObjectsContainer.asDatabaseModel(): List<DatabaseNearEarthObject> {
+    val result = ArrayList<DatabaseNearEarthObject>()
+    this.networkNearEarthObjectsContainer.map {
+        it.value.forEach { networkNearEarthObject ->
+            result.add(
+                DatabaseNearEarthObject(
+                    networkNearEarthObject.id,
+                    networkNearEarthObject.absoluteMagnitude,
+                    networkNearEarthObject.estimatedDiameter.kilometers.estimatedDiameterMax,
+                    networkNearEarthObject.isPotentiallyHazardousAsteroid,
+                    networkNearEarthObject.closeApproachData[0].relativeVelocity.kilometersPerSecond,
+                    networkNearEarthObject.closeApproachData[0].missDistance.astronomical
+                )
+            )
+        }
+    }
+    return result
+}

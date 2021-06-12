@@ -9,7 +9,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.time.LocalDate
 
 interface NasaNearObjectsService {
     @GET("/neo/rest/v1/feed")
@@ -17,7 +16,7 @@ interface NasaNearObjectsService {
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
         @Query("api_key") apiKey: String
-    ): Deferred<NetworkNearEarthObjectsRepresentation>
+    ): Deferred<NetworkNearEarthObjectsContainer>
 }
 
 
