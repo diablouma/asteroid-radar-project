@@ -16,7 +16,7 @@ interface NasaNearObjectsService {
         @Query("start_date") startDate: Date,
         @Query("end_date") endDate: Date,
         @Query("api_key") apiKey: String
-    ): Deferred<NetworkNearEarthObject>
+    ): Deferred<NetworkNearEarthObjectsRepresentation>
 }
 
 
