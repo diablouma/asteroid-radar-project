@@ -12,6 +12,7 @@ interface NearEarthObjectDao {
 
 
 @Database(entities = [NearEarthObject::class], version = 1, exportSchema = false)
+@TypeConverters(LocalDateConverters::class)
 abstract class AsteroidRadarDatabase : RoomDatabase() {
     abstract val nearEarthObjectDao: NearEarthObjectDao
 

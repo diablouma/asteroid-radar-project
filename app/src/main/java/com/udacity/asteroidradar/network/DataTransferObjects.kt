@@ -87,7 +87,11 @@ fun NetworkNearEarthObjectsContainer.asDatabaseModel(): List<DatabaseNearEarthOb
                     networkNearEarthObject.estimatedDiameter.kilometers.estimatedDiameterMax,
                     networkNearEarthObject.isPotentiallyHazardousAsteroid,
                     networkNearEarthObject.closeApproachData[0].relativeVelocity.kilometersPerSecond,
-                    networkNearEarthObject.closeApproachData[0].missDistance.astronomical
+                    networkNearEarthObject.closeApproachData[0].missDistance.astronomical,
+                    LocalDate.parse(
+                        it.key,
+                        DateTimeFormatter.ofPattern(Constants.API_QUERY_DATE_FORMAT)
+                    )
                 )
             )
         }
