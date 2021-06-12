@@ -2,24 +2,27 @@ package com.udacity.asteroidradar.network
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import com.squareup.moshi.JsonQualifier
+import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.domain.NearEarthObject
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @JsonClass(generateAdapter = true)
-data class NetworkNearEarthObjectsRepresentation(
-    @Json(name="near_earth_objects")
-    val nearEarthObjects: Map<String, List<NetworkNearEarthObject>>
+data class NetworkNearEarthObjectsContainer(
+    @Json(name = "near_earth_objects")
+    val networkNearEarthObjectsContainer: Map<String, List<NetworkNearEarthObject>>
 )
 
 @JsonClass(generateAdapter = true)
 data class NetworkNearEarthObject(
     val id: String,
-    @Json(name="absolute_magnitude_h")
+    @Json(name = "absolute_magnitude_h")
     val absoluteMagnitude: Double,
-    @Json(name="estimated_diameter")
+    @Json(name = "estimated_diameter")
     val estimatedDiameter: NetworkEstimatedDiameter,
-    @Json(name="is_potentially_hazardous_asteroid")
+    @Json(name = "is_potentially_hazardous_asteroid")
     val isPotentiallyHazardousAsteroid: Boolean,
-    @Json(name="close_approach_data")
+    @Json(name = "close_approach_data")
     val closeApproachData: List<NetworkCloseApproachData>
 )
 
@@ -28,16 +31,16 @@ data class NetworkEstimatedDiameter(
 )
 
 data class Kilometers(
-    @Json(name="estimated_diameter_min")
+    @Json(name = "estimated_diameter_min")
     val estimatedDiameterMin: String,
-    @Json(name="estimated_diameter_max")
-    val estimatedDiameterMax: String
+    @Json(name = "estimated_diameter_max")
+    val estimatedDiameterMax: Double
 )
 
 data class NetworkCloseApproachData(
-    @Json(name="relative_velocity")
+    @Json(name = "relative_velocity")
     val relativeVelocity: NetworkRelatedVelocity,
-    @Json(name="miss_distance")
+    @Json(name = "miss_distance")
     val missDistance: NetworkMissDistance
 )
 
