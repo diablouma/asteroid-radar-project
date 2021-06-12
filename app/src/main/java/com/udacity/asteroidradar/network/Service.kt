@@ -8,13 +8,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.*
+import java.time.LocalDate
 
 interface NasaNearObjectsService {
     @GET
     fun getNearEarthObjects(
-        @Query("start_date") startDate: Date,
-        @Query("end_date") endDate: Date,
+        @Query("start_date") startDate: LocalDate,
+        @Query("end_date") endDate: LocalDate,
         @Query("api_key") apiKey: String
     ): Deferred<NetworkNearEarthObjectsRepresentation>
 }
