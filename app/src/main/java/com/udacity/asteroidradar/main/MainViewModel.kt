@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.BuildConfig
-import com.udacity.asteroidradar.Constants
-import com.udacity.asteroidradar.Constants.API_QUERY_DATE_FORMAT
+import com.udacity.asteroidradar.dateUtils.toStringRepresentation
 import com.udacity.asteroidradar.network.AsteroidRadarApi
 import com.udacity.asteroidradar.network.asDatabaseModel
 import com.udacity.asteroidradar.network.asDomainModel

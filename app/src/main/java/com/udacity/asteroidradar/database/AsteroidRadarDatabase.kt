@@ -10,7 +10,7 @@ interface NearEarthObjectDao {
     fun getNearEarthObjects(): LiveData<List<NearEarthObject>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg videos: NearEarthObject)
+    suspend fun insertAll(vararg videos: NearEarthObject)
 }
 
 
