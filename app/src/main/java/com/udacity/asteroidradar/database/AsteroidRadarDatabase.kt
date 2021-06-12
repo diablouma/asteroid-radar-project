@@ -8,6 +8,9 @@ import androidx.room.*
 interface NearEarthObjectDao {
     @Query("select * from nearEarthObject")
     fun getNearEarthObjects(): LiveData<List<NearEarthObject>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg videos: NearEarthObject)
 }
 
 
