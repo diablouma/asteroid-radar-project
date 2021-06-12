@@ -14,8 +14,8 @@ import java.time.LocalDate
 interface NasaNearObjectsService {
     @GET("/neo/rest/v1/feed")
     fun getNearEarthObjects(
-        @Query("start_date") startDate: LocalDate,
-        @Query("end_date") endDate: LocalDate,
+        @Query("start_date") startDate: String,
+        @Query("end_date") endDate: String,
         @Query("api_key") apiKey: String
     ): Deferred<NetworkNearEarthObjectsRepresentation>
 }
