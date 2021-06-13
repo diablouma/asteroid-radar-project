@@ -17,8 +17,12 @@ interface NasaNearObjectsService {
         @Query("end_date") endDate: String,
         @Query("api_key") apiKey: String
     ): Deferred<NetworkNearEarthObjectsContainer>
-}
 
+    @GET("/planetary/apod")
+    fun getPictureOfDay(
+        @Query("api_key") apiKey: String
+    ): Deferred<PictureOfDay>
+}
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
