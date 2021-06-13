@@ -20,6 +20,7 @@
             android:layout_marginTop="8dp"
             android:hint="@string/asteroid_id"
             android:textColor="@color/default_text_color"
+            android:textStyle="bold"
             app:asteroidIdText="@{nearEarthObject}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
