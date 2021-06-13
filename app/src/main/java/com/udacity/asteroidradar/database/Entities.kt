@@ -11,6 +11,7 @@ import com.udacity.asteroidradar.domain.NearEarthObject as DomainNearEarthObject
 data class NearEarthObject constructor(
     @PrimaryKey
     val id: String,
+    val codeName: String,
     val absoluteMagnitude: Double,
     val estimatedDiameterMax: Double,
     val isPotentiallyHazardousAsteroid: Boolean,
@@ -22,6 +23,8 @@ data class NearEarthObject constructor(
 fun List<NearEarthObject>.asDomainModel(): List<DomainNearEarthObject> {
     return map {
         DomainNearEarthObject(
+            it.id,
+            it.codeName,
             it.asOfDate,
             it.absoluteMagnitude,
             it.estimatedDiameterMax,

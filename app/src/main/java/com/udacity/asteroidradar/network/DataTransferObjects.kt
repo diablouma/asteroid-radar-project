@@ -15,6 +15,8 @@ data class NetworkNearEarthObjectsContainer(
 @JsonClass(generateAdapter = true)
 data class NetworkNearEarthObject(
     val id: String,
+    @Json(name = "name")
+    val codeName: String,
     @Json(name = "absolute_magnitude_h")
     val absoluteMagnitude: Double,
     @Json(name = "estimated_diameter")
@@ -58,6 +60,8 @@ fun NetworkNearEarthObjectsContainer.asDomainModel(): List<NearEarthObject> {
         it.value.forEach { networkNearEarthObject ->
             result.add(
                 NearEarthObject(
+                    networkNearEarthObject.id,
+                    networkNearEarthObject.codeName,
                     localDateFrom(it.key),
                     networkNearEarthObject.absoluteMagnitude,
                     networkNearEarthObject.estimatedDiameter.kilometers.estimatedDiameterMax,
@@ -78,6 +82,7 @@ fun NetworkNearEarthObjectsContainer.asDatabaseModel(): Array<DatabaseNearEarthO
             result.add(
                 DatabaseNearEarthObject(
                     networkNearEarthObject.id,
+                    networkNearEarthObject.codeName,
                     networkNearEarthObject.absoluteMagnitude,
                     networkNearEarthObject.estimatedDiameter.kilometers.estimatedDiameterMax,
                     networkNearEarthObject.isPotentiallyHazardousAsteroid,

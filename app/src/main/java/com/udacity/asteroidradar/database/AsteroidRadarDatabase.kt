@@ -14,7 +14,7 @@ interface NearEarthObjectDao {
 }
 
 
-@Database(entities = [NearEarthObject::class], version = 1, exportSchema = false)
+@Database(entities = [NearEarthObject::class], version = 2, exportSchema = false)
 @TypeConverters(LocalDateConverters::class)
 abstract class AsteroidRadarDatabase : RoomDatabase() {
     abstract val nearEarthObjectDao: NearEarthObjectDao
@@ -31,8 +31,8 @@ abstract class AsteroidRadarDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         AsteroidRadarDatabase::class.java,
-                        "asteroid_radar_database"
-                    ).build()
+                        "asteroid_radar_database",
+                    ).fallbackToDestructiveMigration().build()
                 }
 
                 INSTANCE = instance

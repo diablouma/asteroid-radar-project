@@ -1,8 +1,12 @@
 package com.udacity.asteroidradar
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.udacity.asteroidradar.dateUtils.toStringRepresentation
+import com.udacity.asteroidradar.domain.NearEarthObject
+import java.time.LocalDate
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -38,4 +42,20 @@ fun bindTextViewToKmUnit(textView: TextView, number: Double) {
 fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
+}
+
+@BindingAdapter("asteroidIdText")
+fun bindTextViewToAsteroidId(textView: TextView, nearEarthObject: NearEarthObject) {
+    val context = textView.context
+    textView.text = String.format(context.getString(R.string.asteroid_id), nearEarthObject.id, nearEarthObject.codeName)
+}
+
+@BindingAdapter("closeApproachDateText")
+fun bindTextViewToCloseApproachDate(textView: TextView, closeApproachDate: LocalDate) {
+    textView.text = toStringRepresentation(closeApproachDate)
+}
+
+@BindingAdapter("goneIfNotNull")
+fun goneIfNotNull(view: View, it: Any?) {
+    view.visibility = if (it != null) View.GONE else View.VISIBLE
 }
