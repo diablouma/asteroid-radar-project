@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.BuildConfig
@@ -10,6 +11,7 @@ import com.udacity.asteroidradar.dateUtils.toStringRepresentation
 import com.udacity.asteroidradar.domain.NearEarthObject
 import com.udacity.asteroidradar.network.AsteroidRadarApi
 import com.udacity.asteroidradar.network.asDatabaseModel
+import com.udacity.asteroidradar.network.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -22,12 +24,19 @@ class NearEarthObjectRepository(private val asteroidRadarDatabase: AsteroidRadar
 
     suspend fun refreshNearEarthObjects() {
         withContext(Dispatchers.IO) {
-            val nearEarthObjectsFromNetwork = AsteroidRadarApi.retrofitService.getNearEarthObjects(
-                toStringRepresentation(LocalDate.now()),
-                toStringRepresentation(LocalDate.now().plusDays(Constants.DEFAULT_END_DATE_DAYS)),
-                BuildConfig.NASA_API_KEY
-            ).await()
-            asteroidRadarDatabase.nearEarthObjectDao.insertAll(*nearEarthObjectsFromNetwork.asDatabaseModel())
+            try {
+                val nearEarthObjectsFromNetwork =
+                    AsteroidRadarApi.retrofitService.getNearEarthObjects(
+                        toStringRepresentation(LocalDate.now()),
+                        toStringRepresentation(
+                            LocalDate.now().plusDays(Constants.DEFAULT_END_DATE_DAYS)
+                        ),
+                        BuildConfig.NASA_API_KEY
+                    ).await()
+                asteroidRadarDatabase.nearEarthObjectDao.insertAll(*nearEarthObjectsFromNetwork.asDatabaseModel())
+            } catch (exception: Exception) {
+                Log.i("Repository", "No Internet Connection, showing information from database.")
+            }
         }
     }
 }

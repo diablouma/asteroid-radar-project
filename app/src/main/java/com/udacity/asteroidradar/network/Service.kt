@@ -21,7 +21,7 @@ interface NasaNearObjectsService {
     @GET("/planetary/apod")
     fun getPictureOfDay(
         @Query("api_key") apiKey: String
-    ): Deferred<PictureOfDay>
+    ): PictureOfDay
 }
 
 private val moshi = Moshi.Builder()
