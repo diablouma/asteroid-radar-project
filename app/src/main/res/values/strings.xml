@@ -22,4 +22,14 @@
     <string name="nasa_picture_of_day_content_description_format">NASA\'s picture of day: %s</string>
     <string name="asteroid_id">%s %s</string>
     <string name="close_approach_date_hint">Close Approach Date</string>
+    <string name="close_approach_date_is">The Close approach date is</string>
+    <string name="absolute_magnitude_is">The absolute magnitude is</string>
+    <string name="astronomical_unit_explanation_button_content_description">Button to obtain a description of what is an atronomical unit</string>
+    <string name="estimated_diameter_title_content_description">The estimated diameter is</string>
+    <string name="relative_velocity_content_description">The velocity is</string>
+    <string name="distance_from_earth_content_description">The distance from earth is</string>
+    <string name="code_name_content_description">The code name of the asteroid is %s</string>
+    <string name="not_hazardous_face_icon_content_description">happy face indicating that this asteroid is not hazardous</string>
+    <string name="hazardous_face_icon_content_description">sad face indicating that this asteroid is potentially hazardous</string>
+    <string name="close_approach_date_content_description">The asteroid will be approaching to earth by</string>
 </resources>
