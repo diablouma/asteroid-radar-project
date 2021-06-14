@@ -3,11 +3,12 @@ package com.udacity.asteroidradar.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import java.time.LocalDate
 
 @Dao
 interface NearEarthObjectDao {
-    @Query("select * from nearEarthObject")
-    fun getNearEarthObjects(): LiveData<List<NearEarthObject>>
+    @Query("select * from nearEarthObject where asOfDate >= (:now) order by asOfDate DESC")
+    fun getNearEarthObjects(now: LocalDate = LocalDate.now()): LiveData<List<NearEarthObject>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg videos: NearEarthObject)
