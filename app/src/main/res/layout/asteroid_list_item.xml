@@ -6,11 +6,16 @@
         <variable
             name="nearEarthObject"
             type="com.udacity.asteroidradar.domain.NearEarthObject" />
+
+        <variable
+            name="asteroidCallback"
+            type="com.udacity.asteroidradar.main.AsteroidClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> asteroidCallback.onClick(nearEarthObject)}">
 
         <TextView
             android:id="@+id/asteroid_id_label"

@@ -34,6 +34,12 @@ fun bindTextViewToAstronomicalUnit(textView: TextView, number: Double) {
     textView.text = String.format(context.getString(R.string.astronomical_unit_format), number)
 }
 
+@BindingAdapter("astronomicalUnitTextForStringValue")
+fun bindTextViewToAstronomicalUnit(textView: TextView, number: String) {
+    val context = textView.context
+    textView.text = String.format(context.getString(R.string.astronomical_unit_format_for_string_value), number)
+}
+
 @BindingAdapter("kmUnitText")
 fun bindTextViewToKmUnit(textView: TextView, number: Double) {
     val context = textView.context
@@ -41,9 +47,9 @@ fun bindTextViewToKmUnit(textView: TextView, number: Double) {
 }
 
 @BindingAdapter("velocityText")
-fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
+fun bindTextViewToDisplayVelocity(textView: TextView, velocity: String) {
     val context = textView.context
-    textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
+    textView.text = String.format(context.getString(R.string.km_s_unit_format), velocity)
 }
 
 @BindingAdapter("asteroidIdText")

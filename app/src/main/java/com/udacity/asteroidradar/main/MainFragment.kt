@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.R
@@ -37,7 +38,16 @@ class MainFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        viewModelAdapter = AsteroidsAdapter()
+        viewModelAdapter = AsteroidsAdapter(AsteroidClick {
+            viewModel.displayAsteroidDetails(it)
+        })
+
+        viewModel.navigateToSelectedAsteroid.observe(this, Observer {
+            if (it != null) {
+                this.findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
+                viewModel.displayAsteroidDetailsComplete()
+            }
+        })
 
         binding.root.findViewById<RecyclerView>(R.id.asteroid_recycler).apply {
             layoutManager = LinearLayoutManager(context)
@@ -67,7 +77,11 @@ class MainFragment : Fragment() {
     }
 }
 
-class AsteroidsAdapter() : RecyclerView.Adapter<AsteroidViewHolder>() {
+class AsteroidClick(val block: (NearEarthObject) -> Unit) {
+    fun onClick(nearEarthObject: NearEarthObject) = block(nearEarthObject)
+}
+
+class AsteroidsAdapter(val callback: AsteroidClick) : RecyclerView.Adapter<AsteroidViewHolder>() {
     var asteroids: List<NearEarthObject> = emptyList()
         set(value) {
             field = value
@@ -90,9 +104,8 @@ class AsteroidsAdapter() : RecyclerView.Adapter<AsteroidViewHolder>() {
     override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.nearEarthObject = asteroids[position]
+            it.asteroidCallback = callback
         }
-
-        //TODO: Callback when clicking on item
     }
 }
 
@@ -102,6 +115,8 @@ class AsteroidViewHolder(val viewDataBinding: AsteroidListItemBinding) :
         @LayoutRes
         val LAYOUT = R.layout.asteroid_list_item
     }
+}
 
-
+class OnClickListener(val clickListener: (nearEarthObject: NearEarthObject) -> Unit) {
+    fun onClick(nearEarthObject: NearEarthObject) = clickListener(nearEarthObject)
 }

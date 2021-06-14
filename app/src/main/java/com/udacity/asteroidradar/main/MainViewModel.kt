@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.database.AsteroidRadarDatabase
+import com.udacity.asteroidradar.domain.NearEarthObject
 import com.udacity.asteroidradar.domain.PictureOfDay
 import com.udacity.asteroidradar.network.AsteroidRadarApi
 import com.udacity.asteroidradar.network.asDomainModel
@@ -11,6 +12,10 @@ import com.udacity.asteroidradar.repository.NearEarthObjectRepository
 import kotlinx.coroutines.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val _navigateToSelectedAsteroid = MutableLiveData<NearEarthObject>()
+    val navigateToSelectedAsteroid: LiveData<NearEarthObject>
+        get() = _navigateToSelectedAsteroid
+
     private val database = AsteroidRadarDatabase.getInstance(application)
     private val nearEarthObjectRepository = NearEarthObjectRepository(database)
 
@@ -31,6 +36,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 _pictureOfDay.value = pictureOfDayFromInternet
             }
         }
+    }
+
+    fun displayAsteroidDetails(nearEarthObject: NearEarthObject) {
+        _navigateToSelectedAsteroid.value = nearEarthObject
+    }
+
+    fun displayAsteroidDetailsComplete() {
+        _navigateToSelectedAsteroid.value = null
     }
 
     val asteroids = nearEarthObjectRepository.nearEarthObjects
