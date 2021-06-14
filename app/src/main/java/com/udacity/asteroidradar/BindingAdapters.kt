@@ -1,9 +1,11 @@
 package com.udacity.asteroidradar
 
+import android.media.Image
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.dateUtils.toStringRepresentation
 import com.udacity.asteroidradar.domain.NearEarthObject
 import java.time.LocalDate
@@ -58,4 +60,11 @@ fun bindTextViewToCloseApproachDate(textView: TextView, closeApproachDate: Local
 @BindingAdapter("goneIfNotNull")
 fun goneIfNotNull(view: View, it: Any?) {
     view.visibility = if (it != null) View.GONE else View.VISIBLE
+}
+
+@BindingAdapter("imageOfDayUrl")
+fun bindPictureOfDay(mgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        Picasso.get().load(imgUrl).into(mgView);
+    }
 }
