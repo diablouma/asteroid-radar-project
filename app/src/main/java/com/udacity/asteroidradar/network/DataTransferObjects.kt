@@ -7,12 +7,12 @@ import com.udacity.asteroidradar.domain.NearEarthObject
 import com.udacity.asteroidradar.database.NearEarthObject as DatabaseNearEarthObject
 import com.udacity.asteroidradar.domain.PictureOfDay as DomainPictureOfDay
 
+@JsonClass(generateAdapter = true)
 data class PictureOfDay(
     @Json(name = "media_type") val mediaType: String, val title: String,
     val url: String
 )
 
-@JsonClass(generateAdapter = true)
 fun PictureOfDay.asDomainModel(): DomainPictureOfDay {
     return DomainPictureOfDay(
         this.mediaType,
