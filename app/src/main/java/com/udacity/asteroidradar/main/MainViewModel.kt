@@ -60,7 +60,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _navigateToSelectedAsteroid.value = null
     }
 
-    var asteroids = nearEarthObjectRepository.asteroidsBeforeToday
+    var asteroids = nearEarthObjectRepository.asteroidsForNextWeek
 
     private fun filterAsteroids(filter: AsteroidFilter) {
         asteroids = when (filter) {
