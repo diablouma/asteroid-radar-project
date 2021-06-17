@@ -63,17 +63,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var asteroids = nearEarthObjectRepository.asteroidsBeforeToday
 
     private fun filterAsteroids(filter: AsteroidFilter) {
-        viewModelScope.launch {
-            asteroids = when (filter) {
-                AsteroidFilter.TODAY -> {
-                    nearEarthObjectRepository.asteroidsForToday
-                }
-                AsteroidFilter.BEFORE_TODAY -> {
-                    nearEarthObjectRepository.asteroidsBeforeToday
-                }
-                else -> {
-                    nearEarthObjectRepository.asteroidsForNextWeek
-                }
+        asteroids = when (filter) {
+            AsteroidFilter.TODAY -> {
+                nearEarthObjectRepository.asteroidsForToday
+            }
+            AsteroidFilter.BEFORE_TODAY -> {
+                nearEarthObjectRepository.asteroidsBeforeToday
+            }
+            else -> {
+                nearEarthObjectRepository.asteroidsForNextWeek
             }
         }
     }

@@ -44,12 +44,6 @@ class MainFragment : Fragment() {
             viewModel.displayAsteroidDetails(it)
         })
 
-        viewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroids ->
-            asteroids?.apply {
-                viewModelAdapter?.asteroids = asteroids
-            }
-        })
-
         viewModel.navigateToSelectedAsteroid.observe(this, Observer {
             if (it != null) {
                 this.findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
@@ -77,6 +71,13 @@ class MainFragment : Fragment() {
             R.id.show_saved_asteroids -> viewModel.updateFilter(AsteroidFilter.BEFORE_TODAY)
             else -> viewModel.updateFilter(AsteroidFilter.WEEK)
         }
+
+        viewModel.asteroids.observe(viewLifecycleOwner, { asteroids ->
+            asteroids?.apply {
+                viewModelAdapter?.asteroids = asteroids
+            }
+        })
+
         return true
     }
 
