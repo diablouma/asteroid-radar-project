@@ -11,14 +11,23 @@ import com.udacity.asteroidradar.dateUtils.toStringRepresentation
 import com.udacity.asteroidradar.domain.NearEarthObject
 import com.udacity.asteroidradar.network.AsteroidRadarApi
 import com.udacity.asteroidradar.network.asDatabaseModel
-import com.udacity.asteroidradar.network.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
 class NearEarthObjectRepository(private val asteroidRadarDatabase: AsteroidRadarDatabase) {
-    val nearEarthObjects: LiveData<List<NearEarthObject>> =
-        Transformations.map(asteroidRadarDatabase.nearEarthObjectDao.getNearEarthObjects()) {
+    val asteroidsForNextWeek: LiveData<List<NearEarthObject>> =
+        Transformations.map(asteroidRadarDatabase.nearEarthObjectDao.getAsteroidsForNextWeek()) {
+            it.asDomainModel()
+        }
+
+    val asteroidsBeforeToday: LiveData<List<NearEarthObject>> =
+        Transformations.map(asteroidRadarDatabase.nearEarthObjectDao.getBeforeTodayAsteroids()) {
+            it.asDomainModel()
+        }
+
+    val asteroidsForToday: LiveData<List<NearEarthObject>> =
+        Transformations.map(asteroidRadarDatabase.nearEarthObjectDao.getTodayAsteroids()) {
             it.asDomainModel()
         }
 
@@ -35,7 +44,7 @@ class NearEarthObjectRepository(private val asteroidRadarDatabase: AsteroidRadar
                     ).await()
                 asteroidRadarDatabase.nearEarthObjectDao.insertAll(*nearEarthObjectsFromNetwork.asDatabaseModel())
             } catch (exception: Exception) {
-                Log.i("Repository", "No Internet Connection, showing information from database.")
+                exception.message?.let { Log.i("Repository", it) }
             }
         }
     }

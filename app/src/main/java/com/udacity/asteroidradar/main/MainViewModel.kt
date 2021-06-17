@@ -5,13 +5,16 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.database.AsteroidRadarDatabase
+import com.udacity.asteroidradar.dateUtils.toStringRepresentation
 import com.udacity.asteroidradar.domain.NearEarthObject
 import com.udacity.asteroidradar.domain.PictureOfDay
+import com.udacity.asteroidradar.network.AsteroidFilter
 import com.udacity.asteroidradar.network.AsteroidRadarApi
 import com.udacity.asteroidradar.network.asDomainModel
 import com.udacity.asteroidradar.repository.NearEarthObjectRepository
 import kotlinx.coroutines.*
 import java.net.InetAddress
+import java.time.LocalDate
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -57,7 +60,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _navigateToSelectedAsteroid.value = null
     }
 
-    val asteroids = nearEarthObjectRepository.nearEarthObjects
+    var asteroids = nearEarthObjectRepository.asteroidsBeforeToday
+
+    private fun filterAsteroids(filter: AsteroidFilter) {
+        viewModelScope.launch {
+            asteroids = when (filter) {
+                AsteroidFilter.TODAY -> {
+                    nearEarthObjectRepository.asteroidsForToday
+                }
+                AsteroidFilter.BEFORE_TODAY -> {
+                    nearEarthObjectRepository.asteroidsBeforeToday
+                }
+                else -> {
+                    nearEarthObjectRepository.asteroidsForNextWeek
+                }
+            }
+        }
+    }
+
+    fun updateFilter(filter: AsteroidFilter) {
+        filterAsteroids(filter)
+    }
+
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

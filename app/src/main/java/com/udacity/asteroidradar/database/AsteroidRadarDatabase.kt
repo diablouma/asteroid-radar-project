@@ -8,7 +8,13 @@ import java.time.LocalDate
 @Dao
 interface NearEarthObjectDao {
     @Query("select * from nearEarthObject where asOfDate >= (:now) order by asOfDate DESC")
-    fun getNearEarthObjects(now: LocalDate = LocalDate.now()): LiveData<List<NearEarthObject>>
+    fun getAsteroidsForNextWeek(now: LocalDate = LocalDate.now()): LiveData<List<NearEarthObject>>
+
+    @Query("select * from nearEarthObject where asOfDate = (:now) order by asOfDate DESC")
+    fun getTodayAsteroids(now: LocalDate = LocalDate.now()): LiveData<List<NearEarthObject>>
+
+    @Query("select * from nearEarthObject where asOfDate < (:now) order by asOfDate DESC")
+    fun getBeforeTodayAsteroids(now: LocalDate = LocalDate.now()): LiveData<List<NearEarthObject>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg videos: NearEarthObject)

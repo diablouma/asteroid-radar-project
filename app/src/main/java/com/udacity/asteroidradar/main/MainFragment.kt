@@ -14,6 +14,7 @@ import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.AsteroidListItemBinding
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.domain.NearEarthObject
+import com.udacity.asteroidradar.network.AsteroidFilter
 
 class MainFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
@@ -31,7 +32,8 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false )
+        val binding: FragmentMainBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.setLifecycleOwner(this)
 
         binding.viewModel = viewModel
@@ -40,6 +42,12 @@ class MainFragment : Fragment() {
 
         viewModelAdapter = AsteroidsAdapter(AsteroidClick {
             viewModel.displayAsteroidDetails(it)
+        })
+
+        viewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroids ->
+            asteroids?.apply {
+                viewModelAdapter?.asteroids = asteroids
+            }
         })
 
         viewModel.navigateToSelectedAsteroid.observe(this, Observer {
@@ -64,6 +72,11 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.show_today_asteroids -> viewModel.updateFilter(AsteroidFilter.TODAY)
+            R.id.show_saved_asteroids -> viewModel.updateFilter(AsteroidFilter.BEFORE_TODAY)
+            else -> viewModel.updateFilter(AsteroidFilter.WEEK)
+        }
         return true
     }
 
@@ -89,7 +102,7 @@ class AsteroidsAdapter(val callback: AsteroidClick) : RecyclerView.Adapter<Aster
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidViewHolder {
-        val withDataBinding: AsteroidListItemBinding =  DataBindingUtil.inflate(
+        val withDataBinding: AsteroidListItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             AsteroidViewHolder.LAYOUT,
             parent,

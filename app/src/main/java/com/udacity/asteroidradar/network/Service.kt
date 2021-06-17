@@ -10,6 +10,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+enum class AsteroidFilter { WEEK, TODAY, BEFORE_TODAY }
+
 interface NasaNearObjectsService {
     @GET("/neo/rest/v1/feed")
     fun getNearEarthObjects(
