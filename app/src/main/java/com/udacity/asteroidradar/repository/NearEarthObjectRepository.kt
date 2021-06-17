@@ -39,8 +39,7 @@ class NearEarthObjectRepository(private val asteroidRadarDatabase: AsteroidRadar
                         toStringRepresentation(LocalDate.now()),
                         toStringRepresentation(
                             LocalDate.now().plusDays(Constants.DEFAULT_END_DATE_DAYS)
-                        ),
-                        BuildConfig.NASA_API_KEY
+                        )
                     ).await()
                 asteroidRadarDatabase.nearEarthObjectDao.insertAll(*nearEarthObjectsFromNetwork.asDatabaseModel())
             } catch (exception: Exception) {

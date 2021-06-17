@@ -37,7 +37,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             nearEarthObjectRepository.refreshNearEarthObjects()
             if (isInternetAvailable()) {
                 val pictureOfDayFromInternet =
-                    AsteroidRadarApi.retrofitService.getPictureOfDay(BuildConfig.NASA_API_KEY)
+                    AsteroidRadarApi.retrofitService.getPictureOfDay()
                         .await()
                         .asDomainModel()
                 if (pictureOfDayFromInternet.mediaType == "image") {
